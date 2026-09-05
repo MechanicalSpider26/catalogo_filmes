@@ -1,19 +1,52 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-theme="dark">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block titulo %}Catálogo de Filmes{% endblock %}</title>
+    <!-- Vincula o arquivo CSS gerado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="/">Lista de Filmes</a> |
-        <a href="/cadastrar_diretor">Cadastrar Diretor</a> |
-        <a href="/cadastrar_filme">Cadastrar Filme</a>
-    </nav>
-    <hr>
-    <main>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                🎬 Film<span>Catalog</span>
+            </div>
+            <nav>
+                <a href="/">Filmes</a>
+                <a href="/cadastrar_filme" class="btn btn-primary">+ Cadastrar Filme</a>
+                <button id="themeToggle" class="theme-toggle-btn">☀️ Modo Claro</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
         {% block conteudo %}{% endblock %}
     </main>
+
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Recupera tema salvo ou usa escuro como padrão
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateButtonText(savedTheme);
+
+        toggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateButtonText(newTheme);
+        });
+
+        function updateButtonText(theme) {
+            toggleBtn.textContent = theme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+        }
+    </script>
 </body>
 </html>
