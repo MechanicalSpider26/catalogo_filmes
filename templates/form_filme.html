@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Cadastrar Filme{% endblock %}
+{% block titulo %}{{ 'Editar Filme' if edicao else 'Cadastrar Filme' }}{% endblock %}
 
 {% block conteudo %}
-<h2>Cadastrar Novo Filme</h2>
+<h2>{{ 'Editar Filme' if edicao else 'Cadastrar Novo Filme' }}</h2>
 
 {% if erro %}
     <p style="color: red;"><strong>Erro:</strong> {{ erro }}</p>
@@ -42,6 +42,16 @@
         {% endfor %}
     </datalist><br><br>
 
-    <button type="submit">Salvar Filme</button>
+    <label for="imagem_url">URL da Capa (Link da Imagem):</label><br>
+    <input 
+        type="url" 
+        id="imagem_url" 
+        name="imagem_url" 
+        placeholder="https://exemplo.com/imagem.jpg" 
+        value="{{ imagem_url or '' }}"
+    ><br><br>
+
+    <button type="submit">{{ 'Salvar Alterações' if edicao else 'Salvar Filme' }}</button>
+    <a href="/">Cancelar</a>
 </form>
 {% endblock %}

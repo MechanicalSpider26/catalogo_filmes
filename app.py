@@ -2,7 +2,7 @@
 from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for
 from cadastro import (conectar_banco, cadastrar_diretor, listar_diretores,
-    cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes)
+    cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes, atualizar_filme, excluir_filme)
 
 from validacoes import validar_diretor, validar_filme
 
@@ -61,6 +61,7 @@ def cadastro_filme():
         diretor_nome=request.form.get("diretor_nome")
         nota=request.form.get("nota")
         estudio=request.form.get("estudio")
+        imagem_url = request.form.get("imagem_url", "").strip()
 
         diretor_id = obter_ou_criar_diretor(diretor_nome) if diretor_nome else None
 
@@ -108,6 +109,75 @@ def buscar_filme():
         encontrados = buscar_filme(termo)
 
     return render_template("busca.html",termo=termo)
+
+# Editar
+
+@app.route("/filme/<int:id_filme>/editar", methods=["GET","POST"])
+def editar_filme(id_filme):
+    """GET exibe os dados preenchidos; POST aplica as correções."""
+    filme = obter_filme_por_id(id_filme)
+
+    if filme is None:
+        return render_template("erro.html", mensagem=f"Filme com ID {id_filme} não foi encontrado"), 404
+
+    if request.method == "POST":
+        titulo = request.form.get("titulo", "").strip()
+        ano = request.form.get("ano", "").strip()
+        genero = request.form.get("genero", "").strip()
+        diretor_nome = request.form.get("diretor_nome", "").strip()
+        nota = request.form.get("nota", "").strip()
+        estudio = request.form.get("estudio", "").strip()
+        imagem_url = request.form.get("imagem_url", "").strip()
+
+        # Reutiliza a função de pegar/criar diretor caso o nome tenha mudado
+        diretor_id = obter_ou_criar_diretor(diretor_nome) if diretor_nome else None
+
+        valido, erro = validar_filme(titulo, ano, genero, diretor_id, nota, estudio)
+
+        if not valido:
+            return render_template(
+                "form_filme.html",
+                diretores=listar_diretores(),
+                erro=erro,
+                titulo=titulo,
+                ano=ano,
+                genero=genero,
+                diretor_nome=diretor_nome,
+                nota=nota,
+                estudio=estudio,
+                edicao=True,
+                id_filme=id_filme
+            )
+
+        atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio)
+        return redirect(url_for("listar", msg="Filme atualizado com sucesso!"))
+
+    # No GET, passa os valores vindos do banco para popular os inputs
+    return render_template(
+        "form_filme.html",
+        diretores=listar_diretores(),
+        titulo=filme["titulo"],
+        ano=filme["ano"],
+        genero=filme["genero"],
+        diretor_nome=filme["diretor_nome"],
+        nota=filme["nota"],
+        estudio=filme["estudio"],
+        edicao=True,
+        id_filme=id_filme
+    )
+
+# Excluir
+
+@app.route("/filme/<int:id_filme>/excluir", methods=["POST"])
+def excluir(id_filme):
+    """Exclui o filme do banco de dados. Aceita SOMENTE requisições POST."""
+    filme = obter_filme_por_id(id_filme)
+
+    if filme is None:
+        return render_template("erro.html", mensagem=f"Filme com ID {id_filme} não encontrado."), 404
+
+    excluir_filme(id_filme)
+    return redirect(url_for("listar", msg=f"Filme '{filme['titulo']}' excluído com sucesso!"))
 
 if __name__ == "__main__":
     app.run(debug=True)

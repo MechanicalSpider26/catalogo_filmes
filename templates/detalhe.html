@@ -3,14 +3,12 @@
 {% block titulo %}{{ filme.titulo }} - Detalhes{% endblock %}
 
 {% block conteudo %}
-<div style="display: flex; gap: 30px; align-items: flex-start;">
-    <!-- Capa do Filme -->
+<div style="display: flex; gap: 20px; align-items: flex-start;">
     <div>
         {% if filme.imagem_url %}
-            <img src="{{ filme.imagem_url }}" alt="{{ filme.titulo }}" style="width: 220px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <img src="{{ filme.imagem_url }}" alt="Capa de {{ filme.titulo }}" style="max-width: 200px; border-radius: 8px;">
         {% else %}
-            <!-- Capa padrão caso o filme não tenha imagem -->
-            <img src="https://placehold.co/220x330?text=Sem+Capa" alt="Sem Capa" style="border-radius: 8px;">
+            <img src="https://placehold.co/200x300?text=Sem+Capa" alt="Sem Capa" style="border-radius: 8px;">
         {% endif %}
     </div>
 

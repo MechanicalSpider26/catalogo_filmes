@@ -59,7 +59,7 @@ def cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio):
     conn = conectar_banco()
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO filmes (titulo, ano, genero, diretor_id, nota, estudio)
+        INSERT INTO filmes (titulo, ano, genero, diretor_id, nota, estudio, imagem_url )
         VALUES (?, ?, ?, ?, ?, ?)
     ''', (titulo, ano, genero, diretor_id, nota, estudio))
     conn.commit()
@@ -141,3 +141,23 @@ def buscar_filmes(termo):
     
     conn.close()
     return filmes
+
+def atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio):
+    """Atualiza um filme existente pelo ID."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('''
+        UPDATE filmes
+        SET titulo = ?, ano = ?, genero = ?, diretor_id = ?, nota = ?, estudio = ?, imagem_url = ?
+        WHERE id = ?
+    ''', (titulo, ano, genero, diretor_id, nota, estudio, id_filme))
+    conn.commit()
+    conn.close()
+
+def excluir_filme(id_filme):
+    """Remove um filme do banco de dados pelo ID."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('DELETE FROM filmes WHERE id = ?', (id_filme,))
+    conn.commit()
+    conn.close()
