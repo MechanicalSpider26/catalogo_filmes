@@ -21,10 +21,11 @@
 
         <hr>
 
-        <h3>Sobre o Diretor</h3>
-        <p><strong>Nome:</strong> {{ filme.diretor_nome }}</p>
-        <p><strong>Nacionalidade:</strong> {{ filme.diretor_nacionalidade }}</p>
-        <p><strong>Data de Nascimento:</strong> {{ filme.diretor_nascimento }}</p>
+        <p><strong>Diretor:</strong> 
+            <a href="{{ url_for('detalhe_diretor', id_diretor=filme.diretor_id) }}">
+                {{ filme.diretor_nome }}
+            </a>
+        </p>
 
         <br>
         <a href="/">← Voltar para a lista</a>

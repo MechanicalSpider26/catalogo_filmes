@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ diretor.nome }} - Detalhes{% endblock %}
+
+{% block conteudo %}
+<h2>{{ diretor.nome }}</h2>
+
+<p><strong>Nacionalidade:</strong> {{ diretor.nacionalidade or 'Não informada' }}</p>
+<p><strong>Data de Nascimento:</strong> {{ diretor.data_nascimento or 'Não informada' }}</p>
+
+<hr>
+
+<h3>Filmes Dirigidos no Catálogo ({{ filmes|length }})</h3>
+
+{% if filmes %}
+    <ul>
+        {% for filme in filmes %}
+        <li>
+            <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
+                {{ filme.titulo }}
+            </a> 
+            ({{ filme.ano }}) — {{ filme.genero }}
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Nenhum filme cadastrado para este diretor até o momento.</p>
+{% endif %}
+
+<br>
+<a href="/">← Voltar para a lista inicial</a>
+{% endblock %}

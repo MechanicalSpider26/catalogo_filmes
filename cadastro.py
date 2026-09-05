@@ -161,3 +161,21 @@ def excluir_filme(id_filme):
     cursor.execute('DELETE FROM filmes WHERE id = ?', (id_filme,))
     conn.commit()
     conn.close()
+
+def obter_diretor_por_id(id_diretor):
+    """Busca os dados do diretor pelo ID."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM diretores WHERE id = ?', (id_diretor,))
+    diretor = cursor.fetchone()
+    conn.close()
+    return diretor
+
+def listar_filmes_por_diretor(id_diretor):
+    """Busca todos os filmes dirigidos por um diretor específico."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM filmes WHERE diretor_id = ? ORDER BY titulo', (id_diretor,))
+    filmes = cursor.fetchall()
+    conn.close()
+    return filmes

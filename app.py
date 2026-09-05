@@ -1,8 +1,9 @@
 
 from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for
-from cadastro import (conectar_banco, cadastrar_diretor, listar_diretores,
-    cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes, atualizar_filme, excluir_filme)
+from cadastro import (cadastrar_diretor, listar_diretores,
+    cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes, atualizar_filme, 
+    excluir_filme, obter_diretor_por_id, listar_filmes_por_diretor)
 
 from validacoes import validar_diretor, validar_filme
 
@@ -96,6 +97,17 @@ def detalhe_filme(id_filme):
         return render_template("erro.html", mensagem=f"filme com ID {id_filme} não encontrado"), 404
     
     return render_template("detalhe.html", filme=filme)
+
+@app.route("/diretor/<int:id_diretor>")
+def detalhe_diretor(id_diretor):
+    """Exibe o perfil do diretor e a lista de filmes dirigidos por ele."""
+    diretor = obter_diretor_por_id(id_diretor)
+
+    if diretor is None:
+        return render_template("erro.html", mensagem=f"Diretor com ID {id_diretor} não encontrado."), 404
+
+    filmes = listar_filmes_por_diretor(id_diretor)
+    return render_template("detalhe_diretor.html", diretor=diretor, filmes=filmes)
 
 # Buscar
 

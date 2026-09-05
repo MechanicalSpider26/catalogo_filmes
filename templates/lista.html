@@ -46,7 +46,11 @@
                 <td>{{ filme.genero }}</td>
                 <td>{{ filme.estudio }}</td>
                 <td>{{ filme.nota }}</td>
-                <td>{{ filme.diretor_nome }}</td>
+                <td>
+                    <a href="{{ url_for('detalhe_diretor', id_diretor=filme.diretor_id) }}">
+                        {{ filme.diretor_nome }}
+                    </a>
+                </td>
                 <td>
                     <a href="{{ url_for('editar_filme', id_filme=filme.id) }}">Editar</a>
                     <form action="{{ url_for('excluir', id_filme=filme.id) }}" method="POST" style="display: inline;">
