@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Cadastrar Filme{% endblock %}
+
+{% block conteudo %}
+<h2>Cadastrar Novo Filme</h2>
+
+{% if erro %}
+    <p style="color: red;"><strong>Erro:</strong> {{ erro }}</p>
+{% endif %}
+
+<form method="POST">
+    <label for="titulo">Título:</label><br>
+    <input type="text" id="titulo" name="titulo" value="{{ titulo or '' }}"><br><br>
+
+    <label for="ano">Ano de Lançamento:</label><br>
+    <input type="number" id="ano" name="ano" value="{{ ano or '' }}"><br><br>
+
+    <label for="genero">Gênero:</label><br>
+    <input type="text" id="genero" name="genero" value="{{ genero or '' }}"><br><br>
+
+    <label for="estudio">Estúdio:</label><br>
+    <input type="text" id="estudio" name="estudio" value="{{ estudio or '' }}"><br><br>
+
+    <label for="nota">Nota (0 a 10):</label><br>
+    <input type="text" id="nota" name="nota" placeholder="ex: 8.5" value="{{ nota or '' }}"><br><br>
+
+    <label for="diretor_id">Diretor:</label><br>
+    <select id="diretor_id" name="diretor_id">
+        <option value="">-- Selecione um Diretor --</option>
+        {% for diretor in diretores %}
+            <option value="{{ diretor.id }}" {% if diretor_id and diretor_id|int == diretor.id %}selected{% endif %}>
+                {{ diretor.nome }}
+            </option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Salvar Filme</button>
+</form>
+{% endblock %}

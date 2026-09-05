@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Início - Catálogo de Filmes{% endblock %}
+
+{% block conteudo %}
+<h2>Lista de Filmes</h2>
+
+{% if filmes %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Ano</th>
+                <th>Gênero</th>
+                <th>Estúdio</th>
+                <th>Nota</th>
+                <th>Diretor</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for filme in filmes %}
+                <tr>
+                    <td>{{ filme.titulo }}</td>
+                    <td>{{ filme.ano }}</td>
+                    <td>{{ filme.genero }}</td>
+                    <td>{{ filme.estudio }}</td>
+                    <td>{{ filme.nota }}</td>
+                    <td>{{ filme.diretor_nome }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Nenhum filme cadastrado até o momento.</p>
+{% endif %}
+{% endblock %}

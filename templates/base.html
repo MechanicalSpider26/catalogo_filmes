@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}Catálogo de Filmes{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <a href="/">Lista de Filmes</a> |
+        <a href="/cadastrar_diretor">Cadastrar Diretor</a> |
+        <a href="/cadastrar_filme">Cadastrar Filme</a>
+    </nav>
+    <hr>
+    <main>
+        {% block conteudo %}{% endblock %}
+    </main>
+</body>
+</html>
