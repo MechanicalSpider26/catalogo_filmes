@@ -25,15 +25,22 @@
     <label for="nota">Nota (0 a 10):</label><br>
     <input type="text" id="nota" name="nota" placeholder="ex: 8.5" value="{{ nota or '' }}"><br><br>
 
-    <label for="diretor_id">Diretor:</label><br>
-    <select id="diretor_id" name="diretor_id">
-        <option value="">-- Selecione um Diretor --</option>
+    <label for="diretor_nome">Diretor:</label><br>
+    <input 
+        type="text" 
+        id="diretor_nome" 
+        name="diretor_nome" 
+        list="lista-diretores" 
+        placeholder="Digite ou selecione um diretor" 
+        value="{{ diretor_nome or '' }}"
+        autocomplete="off"
+    ><br>
+
+    <datalist id="lista-diretores">
         {% for diretor in diretores %}
-            <option value="{{ diretor.id }}" {% if diretor_id and diretor_id|int == diretor.id %}selected{% endif %}>
-                {{ diretor.nome }}
-            </option>
+            <option value="{{ diretor.nome }}"></option>
         {% endfor %}
-    </select><br><br>
+    </datalist><br><br>
 
     <button type="submit">Salvar Filme</button>
 </form>

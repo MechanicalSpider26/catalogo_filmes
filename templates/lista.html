@@ -1,12 +1,28 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Início - Catálogo de Filmes{% endblock %}
+{% block titulo %}Lista de Filmes{% endblock %}
 
 {% block conteudo %}
 <h2>Lista de Filmes</h2>
 
+<!-- Formulário que envia o termo para a rota '/' via GET -->
+<form action="/" method="GET" style="margin-bottom: 20px;">
+    <input 
+        type="text" 
+        name="termo" 
+        value="{{ termo or '' }}" 
+        placeholder="Buscar por título, gênero ou diretor..."
+        style="width: 300px;"
+    >
+    <button type="submit">Pesquisar</button>
+    
+    {% if termo %}
+        <a href="/" style="margin-left: 10px;">Limpar busca</a>
+    {% endif %}
+</form>
+
 {% if filmes %}
-    <table border="1" cellpadding="8" cellspacing="0">
+    <table border="1" cellpadding="8">
         <thead>
             <tr>
                 <th>Título</th>
@@ -19,18 +35,22 @@
         </thead>
         <tbody>
             {% for filme in filmes %}
-                <tr>
-                    <td>{{ filme.titulo }}</td>
-                    <td>{{ filme.ano }}</td>
-                    <td>{{ filme.genero }}</td>
-                    <td>{{ filme.estudio }}</td>
-                    <td>{{ filme.nota }}</td>
-                    <td>{{ filme.diretor_nome }}</td>
-                </tr>
+            <tr>
+                <td>
+                    <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
+                        {{ filme.titulo }}
+                    </a>
+                </td>
+                <td>{{ filme.ano }}</td>
+                <td>{{ filme.genero }}</td>
+                <td>{{ filme.estudio }}</td>
+                <td>{{ filme.nota }}</td>
+                <td>{{ filme.diretor_nome }}</td>
+            </tr>
             {% endfor %}
         </tbody>
     </table>
 {% else %}
-    <p>Nenhum filme cadastrado até o momento.</p>
+    <p>Nenhum filme encontrado{% if termo %} para "{{ termo }}"{% endif %}.</p>
 {% endif %}
 {% endblock %}

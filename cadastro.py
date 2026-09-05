@@ -1,5 +1,6 @@
 import sqlite3
 import os
+from flask import request
 
 def conectar_banco():
     """Conecta ao banco SQLite e cria a tabela se nao existir."""
@@ -75,5 +76,68 @@ def listar_filmes():
         ORDER BY filmes.titulo
     ''')
     filmes = cursor.fetchall()
+    conn.close()
+    return filmes
+
+def obter_ou_criar_diretor(nome_diretor):
+    """Busca o id do diretor pelo nome. Se não existir, cadastra um novo."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    
+    # Busca insensível a maiúsculas/minúsculas
+    cursor.execute("SELECT id FROM diretores WHERE LOWER(nome) = LOWER(?)", (nome_diretor.strip(),))
+    resultado = cursor.fetchone()
+    
+    if resultado:
+        diretor_id = resultado['id'] # Ou resultado[0] dependendo do row_factory
+    else:
+        cursor.execute('''
+            INSERT INTO diretores (nome, nacionalidade, data_nascimento)
+            VALUES (?, 'Não informada', 'Não informada')
+        ''', (nome_diretor.strip(),))
+        conn.commit()
+        diretor_id = cursor.lastrowid
+        
+    conn.close()
+    return diretor_id
+
+def obter_filme_por_id(id_filme):
+    """Busca o filme e os dados do seu diretor pelo ID."""
+    conn = conectar_banco()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT 
+            filmes.*, 
+            diretores.nome AS diretor_nome, 
+            diretores.nacionalidade AS diretor_nacionalidade, 
+            diretores.data_nascimento AS diretor_nascimento
+        FROM filmes
+        JOIN diretores ON filmes.diretor_id = diretores.id
+        WHERE filmes.id = ?
+    ''', (id_filme,))
+    filme = cursor.fetchone()
+    conn.close()
+    return filme
+
+def buscar_filmes(termo):
+    """Busca filmes pelo título, gênero ou nome do diretor."""
+    conn = conectar_banco()
+    
+    # Prepara o termo para buscar qualquer trecho da palavra
+    padrao = f'%{termo}%'
+    
+    filmes = conn.execute('''
+        SELECT 
+            filmes.*, 
+            diretores.nome AS diretor_nome
+        FROM filmes
+        JOIN diretores ON filmes.diretor_id = diretores.id
+        WHERE 
+            LOWER(filmes.titulo) LIKE ? 
+            OR LOWER(filmes.genero) LIKE ? 
+            OR LOWER(diretores.nome) LIKE ?
+        ORDER BY filmes.titulo
+    ''', (padrao, padrao, padrao)).fetchall()
+    
     conn.close()
     return filmes

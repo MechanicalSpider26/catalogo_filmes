@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ filme.titulo }} - Detalhes{% endblock %}
+
+{% block conteudo %}
+<div style="display: flex; gap: 30px; align-items: flex-start;">
+    <!-- Capa do Filme -->
+    <div>
+        {% if filme.imagem_url %}
+            <img src="{{ filme.imagem_url }}" alt="{{ filme.titulo }}" style="width: 220px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+        {% else %}
+            <!-- Capa padrão caso o filme não tenha imagem -->
+            <img src="https://placehold.co/220x330?text=Sem+Capa" alt="Sem Capa" style="border-radius: 8px;">
+        {% endif %}
+    </div>
+
+    <!-- Informações do Filme e Diretor -->
+    <div>
+        <h2>{{ filme.titulo }} ({{ filme.ano }})</h2>
+        <p><strong>Gênero:</strong> {{ filme.genero }}</p>
+        <p><strong>Estúdio:</strong> {{ filme.estudio }}</p>
+        <p><strong>Nota:</strong> ⭐ {{ filme.nota }} / 10</p>
+
+        <hr>
+
+        <h3>Sobre o Diretor</h3>
+        <p><strong>Nome:</strong> {{ filme.diretor_nome }}</p>
+        <p><strong>Nacionalidade:</strong> {{ filme.diretor_nacionalidade }}</p>
+        <p><strong>Data de Nascimento:</strong> {{ filme.diretor_nascimento }}</p>
+
+        <br>
+        <a href="/">← Voltar para a lista</a>
+    </div>
+</div>
+{% endblock %}
