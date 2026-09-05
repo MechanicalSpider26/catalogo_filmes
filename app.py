@@ -77,10 +77,12 @@ def cadastro_filme():
                 genero=genero,
                 diretor_id=diretor_id,
                 nota=nota,
-                estudio=estudio
+                estudio=estudio,
+                imagem_url=imagem_url,
+                diretores=listar_diretores()
             )
 
-        cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio)
+        cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio, imagem_url)
         return redirect(url_for("listar", msg="Filme cadastrado com sucesso"))
 
     diretores = listar_diretores()

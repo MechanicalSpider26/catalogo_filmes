@@ -28,7 +28,8 @@ def conectar_banco():
             genero        TEXT    NOT NULL,
             diretor_id    INTEGER NOT NULL REFERENCES diretores(id),
             nota          REAL    NOT NULL,
-            estudio       TEXT    NOT NULL
+            estudio       TEXT    NOT NULL,
+            imagem_url    TEXT
         )
     ''')
     conn.commit()
@@ -54,14 +55,14 @@ def listar_diretores():
     conn.close()
     return diretores
 
-def cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio):
+def cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio, imagem_url):
     """Cadastra um filme no banco de dados."""
     conn = conectar_banco()
     cursor = conn.cursor()
     cursor.execute('''
-        INSERT INTO filmes (titulo, ano, genero, diretor_id, nota, estudio, imagem_url )
-        VALUES (?, ?, ?, ?, ?, ?)
-    ''', (titulo, ano, genero, diretor_id, nota, estudio))
+        INSERT INTO filmes (titulo, ano, genero, diretor_id, nota, estudio, imagem_url)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ''', (titulo, ano, genero, diretor_id, nota, estudio, imagem_url))
     conn.commit()
     conn.close()
 
@@ -142,7 +143,7 @@ def buscar_filmes(termo):
     conn.close()
     return filmes
 
-def atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio):
+def atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio, imagem_url):
     """Atualiza um filme existente pelo ID."""
     conn = conectar_banco()
     cursor = conn.cursor()
@@ -150,7 +151,7 @@ def atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio):
         UPDATE filmes
         SET titulo = ?, ano = ?, genero = ?, diretor_id = ?, nota = ?, estudio = ?, imagem_url = ?
         WHERE id = ?
-    ''', (titulo, ano, genero, diretor_id, nota, estudio, id_filme))
+    ''', (titulo, ano, genero, diretor_id, nota, estudio, imagem_url, id_filme))
     conn.commit()
     conn.close()
 
