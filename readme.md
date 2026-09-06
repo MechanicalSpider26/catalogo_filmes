@@ -18,11 +18,9 @@ O repositório já inclui o arquivo `cinema.db` pré-populado com dados sobre fi
 
 ## Como Executar o Projeto Localmente
 
-### Pré-requisitos
-
 Certifique-se de ter o **Python 3.x** instalado em sua máquina.
 
-E rode o comando "pip install -r requirements.txt"
+Rode o comando "pip install -r requirements.txt"
 
 O Banco de Dados ja está pré populado com dados de alguns filmes
 
