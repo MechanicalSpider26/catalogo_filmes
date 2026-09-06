@@ -207,6 +207,82 @@ input:focus, select:focus, textarea:focus {
   flex: 1;
 }
 
+/* Card do Formulário Centralizado e Compacto */
+.form-card {
+    max-width: 640px;
+    margin: 20px auto;
+    padding: 28px 32px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+/* Grid de 2 colunas para campos curtos */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-group input,
+.form-group select {
+    padding: 9px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color, #a80000);
+}
+
+/* Alinhamento dos botões abaixo dos campos */
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.btn-cancel {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.btn-cancel:hover {
+    color: var(--text-main);
+}
+
 /* 6. Botões Globais */
 button, .btn {
   display: inline-flex;

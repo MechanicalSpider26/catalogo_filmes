@@ -1,24 +1,33 @@
 {% extends 'base.html' %}
 
-{% block titulo %}Cadastrar Diretor{% endblock %}
+{% block titulo %}Cadastrar Novo Diretor{% endblock %}
 
 {% block conteudo %}
-<h2>Cadastrar Novo Diretor</h2>
+<div class="form-card">
+    <h2 class="form-title">Cadastrar Novo Diretor</h2>
 
-{% if erro %}
-    <p style="color: red;"><strong>Erro:</strong> {{ erro }}</p>
-{% endif %}
+    <form action="{{ url_for('cadastro_diretor') }}" method="POST">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" value="{{ nome or '' }}" required>
+            </div>
 
-<form method="POST">
-    <label for="nome">Nome:</label><br>
-    <input type="text" id="nome" name="nome" value="{{ nome or '' }}"><br><br>
+            <div class="form-group">
+                <label for="nacionalidade">Nacionalidade:</label>
+                <input type="text" id="nacionalidade" name="nacionalidade" value="{{ nacionalidade or '' }}">
+            </div>
 
-    <label for="nacionalidade">Nacionalidade:</label><br>
-    <input type="text" id="nacionalidade" name="nacionalidade" value="{{ nacionalidade or '' }}"><br><br>
+            <div class="form-group">
+                <label for="data_nascimento">Data de Nascimento:</label>
+                <input type="date" id="data_nascimento" name="data_nascimento" value="{{ data_nascimento or '' }}">
+            </div>
+        </div>
 
-    <label for="data_nascimento">Data de Nascimento:</label><br>
-    <input type="text" id="data_nascimento" name="data_nascimento" placeholder="DD/MM/AAAA" value="{{ data_nascimento or '' }}"><br><br>
-
-    <button type="submit">Salvar Diretor</button>
-</form>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar Diretor</button>
+            <a href="/diretores" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

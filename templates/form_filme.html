@@ -1,57 +1,67 @@
 {% extends 'base.html' %}
 
-{% block titulo %}{{ 'Editar Filme' if edicao else 'Cadastrar Filme' }}{% endblock %}
+{% block titulo %}Cadastrar Novo Filme{% endblock %}
 
 {% block conteudo %}
-<h2>{{ 'Editar Filme' if edicao else 'Cadastrar Novo Filme' }}</h2>
+<div class="form-card">
+    <h2 class="form-title">Cadastrar Novo Filme</h2>
 
-{% if erro %}
-    <p style="color: red;"><strong>Erro:</strong> {{ erro }}</p>
-{% endif %}
+    <form action="{{ url_for('cadastro_filme') }}" method="POST">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required>
+            </div>
 
-<form method="POST">
-    <label for="titulo">Título:</label><br>
-    <input type="text" id="titulo" name="titulo" value="{{ titulo or '' }}"><br><br>
+            <div class="form-group">
+                <label for="ano">Ano de Lançamento:</label>
+                <input type="number" id="ano" name="ano" required>
+            </div>
 
-    <label for="ano">Ano de Lançamento:</label><br>
-    <input type="number" id="ano" name="ano" value="{{ ano or '' }}"><br><br>
+            <div class="form-group">
+                <label for="genero">Gênero:</label>
+                <input type="text" id="genero" name="genero" required>
+            </div>
 
-    <label for="genero">Gênero:</label><br>
-    <input type="text" id="genero" name="genero" value="{{ genero or '' }}"><br><br>
+            <div class="form-group">
+                <label for="estudio">Estúdio:</label>
+                <input type="text" id="estudio" name="estudio">
+            </div>
 
-    <label for="estudio">Estúdio:</label><br>
-    <input type="text" id="estudio" name="estudio" value="{{ estudio or '' }}"><br><br>
+            <div class="form-group">
+                <label for="nota">Nota (0 a 10):</label>
+                <input type="number" step="0.1" id="nota" name="nota" placeholder="ex: 8.5">
+            </div>
 
-    <label for="nota">Nota (0 a 10):</label><br>
-    <input type="text" id="nota" name="nota" placeholder="ex: 8.5" value="{{ nota or '' }}"><br><br>
+            <div class="form-group full-width">
+                <label for="id_diretor">Diretor:</label>
+                    <input 
+                    type="text" 
+                    id="diretor_nome" 
+                    name="diretor_nome" 
+                    list="lista-diretores" 
+                    placeholder="Digite ou selecione um diretor" 
+                    value="{{ diretor_nome or '' }}"
+                    autocomplete="off"
+                >
+            </div>
+ 
+            <div class="form-group full-width">
+                <label for="imagem_url">URL da Capa (Link da Imagem):</label>
+                    <input 
+                        type="url" 
+                        id="imagem_url" 
+                        name="imagem_url" 
+                        placeholder="https://exemplo.com/imagem.jpg" 
+                        value="{{ imagem_url or '' }}"
+                    >
+            </div>
+        </div>
 
-    <label for="diretor_nome">Diretor:</label><br>
-    <input 
-        type="text" 
-        id="diretor_nome" 
-        name="diretor_nome" 
-        list="lista-diretores" 
-        placeholder="Digite ou selecione um diretor" 
-        value="{{ diretor_nome or '' }}"
-        autocomplete="off"
-    ><br>
-
-    <datalist id="lista-diretores">
-        {% for diretor in diretores %}
-            <option value="{{ diretor.nome }}"></option>
-        {% endfor %}
-    </datalist><br><br>
-
-    <label for="imagem_url">URL da Capa (Link da Imagem):</label><br>
-    <input 
-        type="url" 
-        id="imagem_url" 
-        name="imagem_url" 
-        placeholder="https://exemplo.com/imagem.jpg" 
-        value="{{ imagem_url or '' }}"
-    ><br><br>
-
-    <button type="submit">{{ 'Salvar Alterações' if edicao else 'Salvar Filme' }}</button>
-    <a href="/">Cancelar</a>
-</form>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar Filme</button>
+            <a href="/" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
