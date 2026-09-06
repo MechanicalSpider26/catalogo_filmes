@@ -29,7 +29,8 @@ def conectar_banco():
             diretor_id    INTEGER NOT NULL REFERENCES diretores(id),
             nota          REAL    NOT NULL,
             estudio       TEXT    NOT NULL,
-            imagem_url    TEXT
+            imagem_url    TEXT,
+            sinopse       TEXT
         )
     ''')
     conn.commit()
@@ -222,5 +223,13 @@ def excluir_diretor(id_diretor):
     conn = conectar_banco()
     conn.execute("UPDATE filmes SET diretor_id = NULL WHERE diretor_id = ?", (id_diretor,))
     conn.execute("DELETE FROM diretores WHERE id = ?", (id_diretor,))
+    conn.commit()
+    conn.close()
+
+def atualizar_sinopse(id_filme, nova_sinopse):
+    """Atualiza a sinopse do filme no banco de dados"""
+    conn = conectar_banco()
+    conn.execute(
+        "UPDATE filmes SET sinopse = ? WHERE id = ?", (nova_sinopse, id_filme))
     conn.commit()
     conn.close()

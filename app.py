@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for
 from cadastro import (cadastrar_diretor, listar_diretores,
     cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes, atualizar_filme, 
-    excluir_filme, obter_diretor_por_id, listar_filmes_por_diretor, listar_diretores_com_contagem, excluir_diretor, atualizar_nome_diretor)
+    excluir_filme, obter_diretor_por_id, listar_filmes_por_diretor, listar_diretores_com_contagem, excluir_diretor, atualizar_nome_diretor, atualizar_sinopse)
 
 from validacoes import validar_diretor, validar_filme
 
@@ -229,6 +229,12 @@ def page_not_found(e):
 def deletar_diretor(id_diretor):
     excluir_diretor(id_diretor)
     return redirect(url_for("listar_diretores_pagina"))
+
+@app.route('/filme/<int:id_filme>/sinopse', methods=['POST'])
+def salvar_sinopse(id_filme):
+    nova_sinopse = request.form.get('sinopse')
+    atualizar_sinopse(id_filme, nova_sinopse)
+    return redirect(url_for('detalhe_filme', id_filme=id_filme))
 
 if __name__ == "__main__":
     app.run(debug=True)

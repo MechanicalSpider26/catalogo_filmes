@@ -3,30 +3,67 @@
 {% block titulo %}{{ diretor.nome }} - Detalhes{% endblock %}
 
 {% block conteudo %}
-<h2>{{ diretor.nome }}</h2>
+<div class="movie-detail-card" style="grid-template-columns: 1fr;">
+    <div class="movie-info">
+        <div class="movie-info-header">
+            <h1 class="movie-title">🎬 {{ diretor.nome }}</h1>
+        </div>
 
-<p><strong>Nacionalidade:</strong> {{ diretor.nacionalidade or 'Não informada' }}</p>
-<p><strong>Data de Nascimento:</strong> {{ diretor.data_nascimento or 'Não informada' }}</p>
+        <div class="movie-stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Nacionalidade</div>
+                <div class="stat-value">{{ diretor.nacionalidade or 'Não informada' }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Data de Nascimento</div>
+                <div class="stat-value">{{ diretor.data_nascimento or 'Não informada' }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Filmes no Catálogo</div>
+                <div class="stat-value">{{ filmes|length }}</div>
+            </div>
+        </div>
 
-<hr>
+        <div style="margin-top: 32px;">
+            <h3 style="font-size: 1.1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
+                Filmes Dirigidos no Catálogo
+            </h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Ano</th>
+                            <th>Gênero</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for filme in filmes %}
+                        <tr>
+                            <td><strong>{{ filme.titulo }}</strong></td>
+                            <td>{{ filme.ano }}</td>
+                            <td>{{ filme.genero }}</td>
+                            <td>
+                                <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}" class="btn">Ver Filme</a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 20px;">
+                                Nenhum filme cadastrado para este diretor até o momento.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-<h3>Filmes Dirigidos no Catálogo ({{ filmes|length }})</h3>
-
-{% if filmes %}
-    <ul>
-        {% for filme in filmes %}
-        <li>
-            <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
-                {{ filme.titulo }}
-            </a> 
-            ({{ filme.ano }}) — {{ filme.genero }}
-        </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>Nenhum filme cadastrado para este diretor até o momento.</p>
-{% endif %}
-
-<br>
-<a href="/">← Voltar para a lista inicial</a>
+        <div style="margin-top: 24px;">
+            <a href="/" class="btn">← Voltar para a lista inicial</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,11 +1,5 @@
 /* ==========================================================================
    STYLE.CSS - Cinema & Film Catalog (Letterboxd Inspired)
-   Palette:
-     - Onyx: #080F0F (Dark Mode BG)
-     - White Smoke: #F5F5F5 (Light Mode BG / Text)
-     - Cool Steel: #92A1B5 (Muted Text / Borders)
-     - Inferno Red: #A30000 (Primary Accent / Buttons)
-     - Black Cherry: #6B0F1A (Deep Accent / Hover States)
    ========================================================================== */
 
 /* 1. CSS Custom Properties (Theme Tokens) */
@@ -14,6 +8,7 @@
   --bg-main: #080F0F;
   --bg-card: #121A1D;
   --bg-card-hover: #1A2428;
+  --bg-table-header: #182226;
   --bg-input: #162024;
   --border-color: #243238;
   --border-focus: #A30000;
@@ -27,7 +22,7 @@
   --accent-secondary: #6B0F1A;
   --accent-steel: #92A1B5;
 
-  --tag-bg: rgba(163, 0, 0, 0.15);
+  --tag-bg: rgba(163, 0, 0, 0.2);
   --tag-text: #FF4D4D;
   
   --rating-star: #FFC107;
@@ -37,35 +32,36 @@
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 16px;
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Light Theme Override */
 [data-theme="light"] {
-  --bg-main: #F5F5F5;
+  --bg-main: #F8F9FA;
   --bg-card: #FFFFFF;
-  --bg-card-hover: #F0F3F5;
+  --bg-card-hover: #F1F5F9;
+  --bg-table-header: #E2E8F0;
   --bg-input: #FFFFFF;
-  --border-color: #D1D9E0;
+  --border-color: #E2E8F0;
   --border-focus: #A30000;
 
-  --text-main: #080F0F;
-  --text-muted: #5A6978;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
   --text-inverse: #FFFFFF;
 
   --accent-primary: #A30000;
   --accent-primary-hover: #800000;
   --accent-secondary: #6B0F1A;
-  --accent-steel: #92A1B5;
+  --accent-steel: #64748B;
 
   --tag-bg: rgba(163, 0, 0, 0.08);
   --tag-text: #A30000;
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.12);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
-/* 2. Global Resets & Typography */
+/* 2. Resets Globais & Tipografia */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -89,34 +85,33 @@ a {
 }
 
 a:hover {
-  color: var(--text-main);
+  color: var(--accent-primary);
 }
 
 h1, h2, h3, h4 {
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-main);
-  margin-bottom: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-/* 3. Layout & Container */
+/* 3. Container Principal */
 .container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* 4. Header & Navigation (Letterboxd Topbar) */
+/* 4. Header & Navegação */
 header {
   background: var(--bg-card);
   border-bottom: 1px solid var(--border-color);
-  padding: 16px 0;
+  padding: 14px 0;
   margin-bottom: 32px;
   box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
   z-index: 100;
-  backdrop-filter: blur(8px);
 }
 
 header .header-content {
@@ -126,7 +121,7 @@ header .header-content {
 }
 
 .logo {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 800;
   color: var(--text-main);
   display: flex;
@@ -141,27 +136,28 @@ header .header-content {
 nav {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 12px;
 }
 
 nav a {
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   padding: 8px 14px;
   border-radius: var(--radius-sm);
+  color: var(--text-muted);
 }
 
-nav a:hover, nav a.active {
-  background: var(--tag-bg);
-  color: var(--accent-primary);
+nav a:hover {
+  color: var(--text-main);
+  background: var(--bg-card-hover);
 }
 
-/* Theme Toggle Button */
+/* Botão Alternador de Tema */
 .theme-toggle-btn {
   background: transparent;
   border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 6px 12px;
+  padding: 8px 14px;
   border-radius: 20px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -177,141 +173,123 @@ nav a:hover, nav a.active {
   background: var(--bg-card-hover);
 }
 
-/* 5. Search & Filter Bar */
-.search-container {
-  background: var(--bg-card);
-  padding: 20px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-color);
-  margin-bottom: 30px;
-  box-shadow: var(--shadow-sm);
-}
-
-.search-form {
-  display: flex;
-  gap: 12px;
-}
-
+/* 5. Estilização Global de Formulários e Busca */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+select,
+textarea,
+.form-control,
 .search-input {
-  flex: 1;
   background: var(--bg-input);
   border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: var(--radius-sm);
   font-size: 0.95rem;
   outline: none;
   transition: var(--transition);
 }
 
-.search-input:focus {
+input:focus, select:focus, textarea:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.2);
+  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.15);
 }
 
-.search-input::placeholder {
-  color: var(--text-muted);
+.search-container, .search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  max-width: 500px;
 }
 
-/* 6. Buttons & Badges */
-.btn {
+.search-container input, .search-form input {
+  flex: 1;
+}
+
+/* 6. Botões Globais */
+button, .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 10px 20px;
-  font-size: 0.95rem;
+  gap: 6px;
+  padding: 9px 16px;
+  font-size: 0.9rem;
   font-weight: 600;
   border-radius: var(--radius-sm);
-  border: none;
+  border: 1px solid transparent;
   cursor: pointer;
   transition: var(--transition);
   text-decoration: none;
-}
-
-.btn-primary {
-  background: var(--accent-primary);
-  color: #FFFFFF;
-}
-
-.btn-primary:hover {
-  background: var(--accent-primary-hover);
-  color: #FFFFFF;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(163, 0, 0, 0.4);
-}
-
-.btn-secondary {
-  background: transparent;
-  border: 1px solid var(--border-color);
+  background: var(--bg-card-hover);
   color: var(--text-main);
 }
 
-.btn-secondary:hover {
-  background: var(--bg-card-hover);
-  border-color: var(--accent-steel);
+button:hover, .btn:hover {
+  border-color: var(--border-color);
 }
 
-.btn-danger {
-  background: var(--accent-secondary);
-  color: #FFFFFF;
-}
-
-.btn-danger:hover {
+/* Variações de Botão */
+.btn-primary, nav a.btn-primary {
   background: var(--accent-primary);
+  color: #FFFFFF !important;
+  border: none;
 }
 
-/* Tag / Pill */
-.tag {
-  display: inline-block;
-  padding: 4px 10px;
-  background: var(--tag-bg);
+.btn-primary:hover, nav a.btn-primary:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(163, 0, 0, 0.3);
+}
+
+.btn-danger, button[type="submit"]:not(.btn-primary) {
+  background: rgba(163, 0, 0, 0.15);
   color: var(--tag-text);
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  border: 1px solid rgba(163, 0, 0, 0.3);
 }
 
-/* 7. Catalog Table (Lista de Filmes) */
+.btn-danger:hover, button[type="submit"]:not(.btn-primary):hover {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border-color: var(--accent-primary);
+}
+
+/* 7. Estilização Automática de Tabelas */
 .table-wrapper {
   background: var(--bg-card);
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
   overflow: hidden;
   box-shadow: var(--shadow-sm);
+  margin-top: 16px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  background: var(--bg-card);
 }
 
-thead {
-  background: rgba(0, 0, 0, 0.15);
-  border-bottom: 2px solid var(--border-color);
+thead, th {
+  background: var(--bg-table-header) !important;
 }
 
 th {
-  padding: 16px 20px;
-  font-size: 0.85rem;
+  padding: 14px 18px;
+  font-size: 0.8rem;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--text-muted);
   letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
 }
 
 td {
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border-color);
   font-size: 0.95rem;
   vertical-align: middle;
-}
-
-tbody tr {
-  transition: var(--transition);
 }
 
 tbody tr:hover {
@@ -322,64 +300,24 @@ tbody tr:last-child td {
   border-bottom: none;
 }
 
-.film-title-link {
-  font-weight: 700;
-  color: var(--text-main);
-  font-size: 1rem;
-}
-
-.film-title-link:hover {
-  color: var(--accent-primary);
-}
-
-.rating-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 700;
-  color: var(--rating-star);
-}
-
-.actions-cell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.action-link {
-  color: var(--text-muted);
-  font-size: 0.88rem;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
-}
-
-.action-link:hover {
-  color: var(--text-main);
-  border-color: var(--accent-steel);
-  background: var(--bg-card-hover);
-}
-
-/* 8. Movie Detail Card (Letterboxd Detail View) */
+/* 8. Card de Detalhes do Filme */
 .movie-detail-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
-  padding: 32px;
+  padding: 28px;
   display: grid;
-  grid-template-columns: 240px 1fr;
-  gap: 32px;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
   box-shadow: var(--shadow-lg);
   margin-top: 20px;
 }
 
 .poster-wrapper {
-  position: relative;
   width: 100%;
   border-radius: var(--radius-md);
   overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
   aspect-ratio: 2 / 3;
 }
@@ -389,43 +327,29 @@ tbody tr:last-child td {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.3s ease;
-}
-
-.poster-wrapper:hover .poster-img {
-  transform: scale(1.03);
 }
 
 .movie-info-header {
   border-bottom: 1px solid var(--border-color);
-  padding-bottom: 20px;
+  padding-bottom: 16px;
   margin-bottom: 20px;
 }
 
 .movie-title {
-  font-size: 2.2rem;
+  font-size: 2rem;
   line-height: 1.2;
-}
-
-.movie-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 8px;
-  color: var(--text-muted);
-  font-size: 0.95rem;
 }
 
 .movie-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
-  margin-bottom: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
 }
 
 .stat-item {
   background: var(--bg-input);
-  padding: 14px 18px;
+  padding: 12px 16px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-color);
 }
@@ -440,96 +364,7 @@ tbody tr:last-child td {
 }
 
 .stat-value {
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--text-main);
-}
-
-/* 9. Forms & Inputs (Cadastrar / Editar) */
-.form-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  padding: 32px;
-  max-width: 650px;
-  margin: 0 auto;
-  box-shadow: var(--shadow-lg);
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--text-main);
-  margin-bottom: 8px;
-}
-
-.form-control {
-  width: 100%;
-  background: var(--bg-input);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  padding: 12px 16px;
-  border-radius: var(--radius-sm);
-  font-size: 0.95rem;
-  outline: none;
-  transition: var(--transition);
-}
-
-.form-control:focus {
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.2);
-}
-
-.form-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 28px;
-}
-
-/* Alert / Error Banners */
-.alert {
-  padding: 14px 18px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 0.9rem;
-  margin-bottom: 24px;
-}
-
-.alert-danger {
-  background: rgba(163, 0, 0, 0.15);
-  border: 1px solid var(--accent-primary);
-  color: #FF6B6B;
-}
-
-.alert-success {
-  background: rgba(46, 125, 50, 0.15);
-  border: 1px solid #2E7D32;
-  color: #81C784;
-}
-
-/* 10. Responsive Design */
-@media (max-width: 768px) {
-  .movie-detail-card {
-    grid-template-columns: 1fr;
-  }
-  
-  .poster-wrapper {
-    max-width: 200px;
-    margin: 0 auto;
-  }
-
-  .search-form {
-    flex-direction: column;
-  }
-
-  table {
-    display: block;
-    overflow-x: auto;
-  }
 }

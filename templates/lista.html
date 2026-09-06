@@ -22,47 +22,49 @@
 </form>
 
 {% if filmes %}
-    <table border="1" cellpadding="8">
-        <thead>
-            <tr>
-                <th>Título</th>
-                <th>Ano</th>
-                <th>Gênero</th>
-                <th>Estúdio</th>
-                <th>Nota</th>
-                <th>Diretor</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for filme in filmes %}
-            <tr>
-                <td>
-                    <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
-                        {{ filme.titulo }}
-                    </a>
-                </td>
-                <td>{{ filme.ano }}</td>
-                <td>{{ filme.genero }}</td>
-                <td>{{ filme.estudio }}</td>
-                <td>{{ filme.nota }}</td>
-                <td>
-                    <a href="{{ url_for('detalhe_diretor', id_diretor=filme.diretor_id) }}">
-                        {{ filme.diretor_nome }}
-                    </a>
-                </td>
-                <td>
-                    <a href="{{ url_for('editar_filme', id_filme=filme.id) }}">Editar</a>
-                    <form action="{{ url_for('excluir', id_filme=filme.id) }}" method="POST" style="display: inline;">
-                        <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o filme {{ filme.titulo }}?');">
-                            Excluir
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ano</th>
+                    <th>Gênero</th>
+                    <th>Estúdio</th>
+                    <th>Nota</th>
+                    <th>Diretor</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for filme in filmes %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
+                            {{ filme.titulo }}
+                        </a>
+                    </td>
+                    <td>{{ filme.ano }}</td>
+                    <td>{{ filme.genero }}</td>
+                    <td>{{ filme.estudio }}</td>
+                    <td>{{ filme.nota }}</td>
+                    <td>
+                        <a href="{{ url_for('detalhe_diretor', id_diretor=filme.diretor_id) }}">
+                            {{ filme.diretor_nome }}
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url_for('editar_filme', id_filme=filme.id) }}">Editar</a>
+                        <form action="{{ url_for('excluir', id_filme=filme.id) }}" method="POST" style="display: inline;">
+                            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o filme {{ filme.titulo }}?');">
+                                Excluir
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% else %}
     <p>Nenhum filme encontrado{% if termo %} para "{{ termo }}"{% endif %}.</p>
 {% endif %}
