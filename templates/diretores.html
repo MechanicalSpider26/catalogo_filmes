@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Gerenciar Diretores | FilmCatalog{% endblock %}
+
+{% block conteudo %}
+<h2>Diretores Cadastrados</h2>
+
+<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-top: 20px; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome do Diretor</th>
+            <th>Filmes Vinculados</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for diretor in diretores %}
+        <tr>
+            <td>{{ diretor.id }}</td>
+            <td><strong>{{ diretor.nome }}</strong></td>
+            <td>{{ diretor.total_filmes }} filme(s)</td>
+            <td>
+                <a href="/diretores/{{ diretor.id }}/editar" class="btn">Editar</a>
+                
+                <form action="/diretores/{{ diretor.id }}/deletar" method="POST" style="display:inline;" onsubmit="return confirm('Tem certeza que deseja excluir este diretor? Os filmes associados a ele não serão apagados.');">
+                    <button type="submit" style="color: red; cursor: pointer;">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="4">Nenhum diretor cadastrado no momento.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

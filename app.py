@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Flask, request, render_template, redirect, url_for
 from cadastro import (cadastrar_diretor, listar_diretores,
     cadastrar_filme, listar_filmes, obter_ou_criar_diretor, obter_filme_por_id, buscar_filmes, atualizar_filme, 
-    excluir_filme, obter_diretor_por_id, listar_filmes_por_diretor)
+    excluir_filme, obter_diretor_por_id, listar_filmes_por_diretor, listar_diretores_com_contagem, excluir_diretor, atualizar_nome_diretor)
 
 from validacoes import validar_diretor, validar_filme
 
@@ -23,6 +23,11 @@ def listar():
         filmes = listar_filmes()
 
     return render_template("lista.html", filmes=filmes, msg=msg)
+
+@app.route("/diretores")
+def listar_diretores_pagina():
+    diretores = listar_diretores_com_contagem()
+    return render_template("diretores.html", diretores=diretores)
 
 
 # Cadastro
@@ -159,11 +164,12 @@ def editar_filme(id_filme):
                 diretor_nome=diretor_nome,
                 nota=nota,
                 estudio=estudio,
+                imagem_url=filme["imagem_url"],
                 edicao=True,
                 id_filme=id_filme
             )
 
-        atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio)
+        atualizar_filme(id_filme, titulo, ano, genero, diretor_id, nota, estudio, imagem_url)
         return redirect(url_for("listar", msg="Filme atualizado com sucesso!"))
 
     # No GET, passa os valores vindos do banco para popular os inputs
@@ -177,8 +183,29 @@ def editar_filme(id_filme):
         nota=filme["nota"],
         estudio=filme["estudio"],
         edicao=True,
+        imagem_url=filme["imagem_url"],
         id_filme=id_filme
     )
+
+@app.route("/diretores/<int:id_diretor>/editar", methods=["GET", "POST"])
+def editar_diretor(id_diretor):
+    if request.method == "POST":
+        novo_nome = request.form.get("nome", "").strip()
+        if novo_nome:
+            if atualizar_nome_diretor(id_diretor, novo_nome):
+                return redirect(url_for("listar_diretores_pagina"))
+            
+            return render_template(
+                "editar_diretor.html", 
+                diretor={'id': id_diretor, 'nome': novo_nome}, 
+                erro="Já existe um diretor com esse nome."
+            )
+
+    diretor = obter_diretor_por_id(id_diretor)
+    if diretor is None:
+        return render_template("erro.html", mensagem=f"Diretor com ID {id_diretor} não foi encontrado"), 404
+
+    return render_template("editar_diretor.html", diretor=diretor)
 
 # Excluir
 
@@ -197,6 +224,11 @@ def excluir(id_filme):
 def page_not_found(e):
     # Retorna o template da página de erro com o status HTTP 404
     return render_template('erro.html'), 404
+
+@app.route("/diretores/<int:id_diretor>/deletar", methods=["POST"])
+def deletar_diretor(id_diretor):
+    excluir_diretor(id_diretor)
+    return redirect(url_for("listar_diretores_pagina"))
 
 if __name__ == "__main__":
     app.run(debug=True)

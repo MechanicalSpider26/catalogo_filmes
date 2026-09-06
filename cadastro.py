@@ -180,3 +180,47 @@ def listar_filmes_por_diretor(id_diretor):
     filmes = cursor.fetchall()
     conn.close()
     return filmes
+
+def listar_diretores_com_contagem():
+    """Retorna todos os diretores com a contagem de filmes associados."""
+    conn = conectar_banco()
+    diretores = conn.execute('''
+        SELECT d.id, d.nome, COUNT(f.id) as total_filmes 
+        FROM diretores d 
+        LEFT JOIN filmes f ON d.id = f.diretor_id 
+        GROUP BY d.id, d.nome 
+        ORDER BY d.nome ASC
+    ''').fetchall()
+    conn.close()
+    return diretores
+
+
+def obter_diretor_por_id(id_diretor):
+    """Busca um único diretor pelo ID."""
+    conn = conectar_banco()
+    diretor = conn.execute("SELECT * FROM diretores WHERE id = ?", (id_diretor,)).fetchone()
+    conn.close()
+    return diretor
+
+
+def atualizar_nome_diretor(id_diretor, novo_nome):
+    """Atualiza o nome do diretor. Retorna True se atualizou ou False se o nome for duplicado."""
+    conn = conectar_banco()
+    try:
+        conn.execute("UPDATE diretores SET nome = ? WHERE id = ?", (novo_nome, id_diretor))
+        conn.commit()
+        sucesso = True
+    except sqlite3.IntegrityError:
+        sucesso = False
+    finally:
+        conn.close()
+    return sucesso
+
+
+def excluir_diretor(id_diretor):
+    """Desvincula o diretor dos filmes e o remove do banco."""
+    conn = conectar_banco()
+    conn.execute("UPDATE filmes SET diretor_id = NULL WHERE diretor_id = ?", (id_diretor,))
+    conn.execute("DELETE FROM diretores WHERE id = ?", (id_diretor,))
+    conn.commit()
+    conn.close()
