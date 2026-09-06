@@ -368,3 +368,35 @@ tbody tr:last-child td {
   font-weight: 600;
   color: var(--text-main);
 }
+
+/* Garante que o footer fique no rodapé da página mesmo com pouco conteúdo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-footer {
+    margin-top: auto;
+    padding: 24px 0;
+    /* Usa a variável de fundo de card/container do projeto sem valor estático fixo */
+    background-color: var(--card-bg); 
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-container strong {
+    color: var(--text-main);
+}
