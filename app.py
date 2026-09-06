@@ -193,5 +193,10 @@ def excluir(id_filme):
     excluir_filme(id_filme)
     return redirect(url_for("listar", msg=f"Filme '{filme['titulo']}' excluído com sucesso!"))
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # Retorna o template da página de erro com o status HTTP 404
+    return render_template('erro.html'), 404
+
 if __name__ == "__main__":
     app.run(debug=True)

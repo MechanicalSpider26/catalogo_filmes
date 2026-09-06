@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Página Não Encontrada | FilmCatalog{% endblock %}
+
+{% block conteudo %}
+<div class="error-container" style="text-align: center; padding: 60px 20px; max-width: 600px; margin: 0 auto;">
+    <div style="font-size: 4rem; margin-bottom: 10px;">🎬</div>
+    <h1 style="font-size: 5rem; font-weight: 800; line-height: 1; margin-bottom: 15px;">404</h1>
+    <h2 style="font-size: 1.8rem; margin-bottom: 15px;">Cena não encontrada!</h2>
+    <p style="margin-bottom: 30px; opacity: 0.8; line-height: 1.6;">
+        Parece que essa página foi cortada na edição final ou o endereço digitado não existe no nosso catálogo.
+    </p>
+    <a href="/" class="btn btn-primary">Voltar para Filmes</a>
+</div>
+{% endblock %}
