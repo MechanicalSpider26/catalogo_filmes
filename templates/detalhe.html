@@ -36,23 +36,21 @@
         </div>
     </div>
 
-    <!-- Seção de Sinopse (Ocupa 100% da largura do card abaixo do poster e informações) -->
-    <div class="synopsis-container" style="grid-column: 1 / -1; width: 100%; margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--border-color, #e2e8f0);">
-        <h3 style="font-size: 1.1rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px;">
-            Sinopse
-        </h3>
+    <!-- Seção de Sinopse -->
+    <div class="synopsis-container">
+        <h3 class="synopsis-title">Sinopse</h3>
 
         {% if filme.sinopse %}
-            <p style="font-size: 1rem; line-height: 1.7; margin-bottom: 20px; color: var(--text-main); text-align: left; width: 100%;">
+            <p class="synopsis-text">
                 {{ filme.sinopse }}
             </p>
         {% else %}
-            <p style="font-size: 0.95rem; font-style: italic; color: var(--text-muted); margin-bottom: 20px;">
+            <p class="synopsis-empty">
                 Nenhuma sinopse cadastrada para este filme.
             </p>
         {% endif %}
 
-        <form action="{{ url_for('salvar_sinopse', id_filme=filme.id) }}" method="POST" style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+        <form action="{{ url_for('salvar_sinopse', id_filme=filme.id) }}" method="POST" class="synopsis-form">
             <textarea 
                 name="sinopse" 
                 rows="4" 

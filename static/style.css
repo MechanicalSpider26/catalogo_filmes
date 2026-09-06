@@ -386,7 +386,10 @@ tbody tr:last-child td {
   grid-template-columns: 220px 1fr;
   gap: 28px;
   box-shadow: var(--shadow-lg);
-  margin-top: 20px;
+  width: 100%;
+  max-width: 100%; /* Estica até a largura total do container (1100px) */
+  margin: 0 auto 20px auto;
+  box-sizing: border-box;
 }
 
 .poster-wrapper {
@@ -411,6 +414,11 @@ tbody tr:last-child td {
   margin-bottom: 20px;
 }
 
+.movie-info {
+  flex: 1;
+  width: 100%;
+}
+
 .movie-title {
   font-size: 2rem;
   line-height: 1.2;
@@ -418,9 +426,10 @@ tbody tr:last-child td {
 
 .movie-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 14px;
-  margin-bottom: 24px;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
 .stat-item {
@@ -443,6 +452,79 @@ tbody tr:last-child td {
   font-size: 1rem;
   font-weight: 600;
   color: var(--text-main);
+}
+
+/* Seção de Sinopse & Formulário */
+.synopsis-container {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  min-height: 240px !important; /* Mantém a altura fixa mesmo sem conteúdo */
+  box-sizing: border-box !important;
+}
+
+.synopsis-title {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.synopsis-container p,
+.synopsis-text {
+  font-size: 1rem;
+  line-height: 1.7 !important;
+  margin-bottom: 16px !important;
+  color: var(--text-main);
+  text-align: justify !important;
+  width: 100% !important;
+  word-break: break-word;
+}
+
+.synopsis-empty {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.synopsis-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.synopsis-textarea {
+  width: 100%;
+  min-height: 130px;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.synopsis-textarea:focus {
+  border-color: var(--border-focus);
+}
+
+.synopsis-textarea,
+.synopsis-container textarea {
+  width: 100% !important;
+  min-height: 120px !important;
+  box-sizing: border-box !important;
+  display: block !important;
 }
 
 /* Garante que o footer fique no rodapé da página mesmo com pouco conteúdo */
