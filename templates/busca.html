@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Buscar Filmes{% endblock %}
+
+{% block conteudo %}
+<h2>Buscar Filmes</h2>
+
+<form action="{{ url_for('buscar') }}" method="GET">
+    <input type="text" name="termo" value="{{ termo }}" placeholder="Digite o título, gênero ou diretor...">
+    <button type="submit">Pesquisar</button>
+</form>
+
+<br>
+
+{% if termo %}
+    <h3>Resultados para "{{ termo }}"</h3>
+    
+    {% if filmes %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Gênero</th>
+                    <th>Diretor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for filme in filmes %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('detalhe_filme', id_filme=filme.id) }}">
+                            {{ filme.titulo }}
+                        </a>
+                    </td>
+                    <td>{{ filme.genero }}</td>
+                    <td>{{ filme.diretor_nome }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Nenhum filme encontrado para a busca.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Lista de Diretores{% endblock %}
+
+{% block conteudo %}
+<h2>Lista de Diretores</h2>
+
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Nacionalidade</th>
+                <th>Data de Nascimento</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for diretor in diretores %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('detalhe_diretor', id_diretor=diretor.id) }}" style="font-weight: 600; color: var(--text-main);">
+                        {{ diretor.nome }}
+                    </a>
+                </td>
+                <td>{{ diretor.nacionalidade or 'Não informada' }}</td>
+                <td>{{ diretor.data_nascimento or 'Não informada' }}</td>
+                <td>
+                    <a href="{{ url_for('detalhe_diretor', id_diretor=diretor.id) }}" class="btn">Ver Perfil</a>
+                    <a href="{{ url_for('editar_diretor', id_diretor=diretor.id) }}" class="btn btn-secondary">Editar</a>
+                    <form action="{{ url_for('deletar_diretor', id_diretor=diretor.id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Tem certeza que deseja excluir este diretor?')">
+                            Excluir
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 20px;">
+                    Nenhum diretor cadastrado no catálogo.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

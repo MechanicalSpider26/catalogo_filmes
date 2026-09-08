@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{% if edicao %}Editar Diretor{% else %}Cadastrar Novo Diretor{% endif %}{% endblock %}
+
+{% block conteudo %}
+<div class="form-card">
+    <h2 class="form-title">
+        {% if edicao %}Editar Diretor{% else %}Cadastrar Novo Diretor{% endif %}
+    </h2>
+
+    {% if erro %}
+        <div style="color: var(--accent-primary); background: rgba(163,0,0,0.1); padding: 10px 14px; border-radius: 6px; margin-bottom: 20px; font-weight: 600;">
+            {{ erro }}
+        </div>
+    {% endif %}
+
+    <form action="{% if edicao %}{{ url_for('editar_diretor', id_diretor=id_diretor) }}{% else %}{{ url_for('cadastro_diretor') }}{% endif %}" method="POST">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="nome">Nome Completo:</label>
+                <input 
+                    type="text" 
+                    id="nome" 
+                    name="nome" 
+                    required 
+                    placeholder="ex: Christopher Nolan"
+                    value="{{ nome or '' }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="nacionalidade">Nacionalidade:</label>
+                <input 
+                    type="text" 
+                    id="nacionalidade" 
+                    name="nacionalidade" 
+                    placeholder="ex: Britânico"
+                    value="{{ nacionalidade or '' }}"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="data_nascimento">Data de Nascimento:</label>
+                <input 
+                    type="text" 
+                    id="data_nascimento" 
+                    name="data_nascimento" 
+                    placeholder="ex: 30/07/1970"
+                    value="{{ data_nascimento or '' }}"
+                >
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+                {% if edicao %}Salvar Alterações{% else %}Cadastrar Diretor{% endif %}
+            </button>
+            <a href="/diretores" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

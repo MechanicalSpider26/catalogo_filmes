@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{ filme.titulo }} | FilmCatalog{% endblock %}
+
+{% block conteudo %}
+<div class="movie-detail-card">
+    <div class="poster-wrapper">
+        <img src="{{ filme.imagem_url or 'https://via.placeholder.com/300x450?text=Sem+Capa' }}" alt="{{ filme.titulo }}" class="poster-img">
+    </div>
+    <div class="movie-info">
+        <div class="movie-info-header">
+            <h1 class="movie-title">{{ filme.titulo }} <span style="font-weight: 300; color: var(--text-muted);">({{ filme.ano }})</span></h1>
+        </div>
+
+        <div class="movie-stats-grid">
+            <div class="stat-item">
+                <div class="stat-label">Gênero</div>
+                <div class="stat-value">{{ filme.genero }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Estúdio</div>
+                <div class="stat-value">{{ filme.estudio }}</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Nota</div>
+                <div class="stat-value">⭐ {{ filme.nota }} / 10</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Diretor</div>
+                <div class="stat-value">{{ filme.diretor_nome or 'Não informado' }}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 24px;">
+            <a href="/" class="btn">← Voltar para a lista</a>
+        </div>
+    </div>
+
+    <!-- Seção de Sinopse -->
+    <div class="synopsis-container">
+        <h3 class="synopsis-title">Sinopse</h3>
+
+        {% if filme.sinopse %}
+            <p class="synopsis-text">
+                {{ filme.sinopse }}
+            </p>
+        {% else %}
+            <p class="synopsis-empty">
+                Nenhuma sinopse cadastrada para este filme.
+            </p>
+        {% endif %}
+
+        <form action="{{ url_for('salvar_sinopse', id_filme=filme.id) }}" method="POST" class="synopsis-form">
+            <textarea 
+                name="sinopse" 
+                rows="4" 
+                placeholder="Digite ou edite a sinopse aqui..." 
+                style="width: 100%; box-sizing: border-box; padding: 12px; border-radius: 6px; border: 1px solid var(--border-color, #ccc); font-family: inherit; font-size: 0.95rem; resize: vertical;"
+            ></textarea>
+
+            <button type="submit" class="btn btn-primary" style="align-self: flex-start;">
+                {% if filme.sinopse %}Atualizar Sinopse{% else %}Adicionar Sinopse{% endif %}
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

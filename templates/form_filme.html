@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Cadastrar Novo Filme{% endblock %}
+
+{% block conteudo %}
+<div class="form-card">
+    <h2 class="form-title">Cadastrar Novo Filme</h2>
+
+    <form action="{% if edicao %}{{ url_for('editar_filme', id_filme=id_filme) }}{% else %}{{ url_for('cadastro_filme') }}{% endif %}" method="POST">
+        <div class="form-grid">
+            <div class="form-group full-width">
+                <label for="titulo">Título:</label>
+                <input type="text" id="titulo" name="titulo" required
+                value="{{ titulo or '' }}"> 
+            </div>
+
+            <div class="form-group">
+                <label for="ano">Ano de Lançamento:</label>
+                <input type="number" id="ano" name="ano" required
+                value="{{ ano or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="genero">Gênero:</label>
+                <input type="text" id="genero" name="genero" required
+                value="{{ genero or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="estudio">Estúdio:</label>
+                <input type="text" id="estudio" name="estudio"
+                value="{{ estudio or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label for="nota">Nota (0 a 10):</label>
+                <input type="number" step="0.1" id="nota" name="nota" placeholder="ex: 8.5"
+                value="{{ nota or '' }}">
+            </div>
+
+            <div class="form-group full-width">
+                <label for="id_diretor">Diretor:</label>
+                    <input 
+                    type="text" 
+                    id="diretor_nome" 
+                    name="diretor_nome" 
+                    list="lista-diretores" 
+                    placeholder="Digite ou selecione um diretor" 
+                    value="{{ diretor_nome or '' }}"
+                    autocomplete="on"
+                >
+            </div>
+ 
+            <div class="form-group full-width">
+                <label for="imagem_url">URL da Capa (Link da Imagem):</label>
+                    <input 
+                        type="url" 
+                        id="imagem_url" 
+                        name="imagem_url" 
+                        placeholder="https://exemplo.com/imagem.jpg" 
+                        value="{{ imagem_url or '' }}"
+                    >
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Salvar Filme</button>
+            <a href="/" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

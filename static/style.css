@@ -1,0 +1,560 @@
+/* ==========================================================================
+   STYLE.CSS - Cinema & Film Catalog (Letterboxd Inspired)
+   ========================================================================== */
+
+/* 1. CSS Custom Properties (Theme Tokens) */
+:root {
+  /* Dark Theme (Default - Letterboxd Vibe) */
+  --bg-main: #080F0F;
+  --bg-card: #121A1D;
+  --bg-card-hover: #1A2428;
+  --bg-table-header: #182226;
+  --bg-input: #162024;
+  --border-color: #243238;
+  --border-focus: #A30000;
+  
+  --text-main: #F5F5F5;
+  --text-muted: #92A1B5;
+  --text-inverse: #080F0F;
+
+  --accent-primary: #A30000;
+  --accent-primary-hover: #C40000;
+  --accent-secondary: #6B0F1A;
+  --accent-steel: #92A1B5;
+
+  --tag-bg: rgba(163, 0, 0, 0.2);
+  --tag-text: #FF4D4D;
+  
+  --rating-star: #FFC107;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.6);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme Override */
+[data-theme="light"] {
+  --bg-main: #F8F9FA;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F1F5F9;
+  --bg-table-header: #E2E8F0;
+  --bg-input: #FFFFFF;
+  --border-color: #E2E8F0;
+  --border-focus: #A30000;
+
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --text-inverse: #FFFFFF;
+
+  --accent-primary: #A30000;
+  --accent-primary-hover: #800000;
+  --accent-secondary: #6B0F1A;
+  --accent-steel: #64748B;
+
+  --tag-bg: rgba(163, 0, 0, 0.08);
+  --tag-text: #A30000;
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* 2. Resets Globais & Tipografia */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  padding-bottom: 60px;
+}
+
+a {
+  color: var(--accent-steel);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--accent-primary);
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-main);
+  margin-bottom: 1rem;
+}
+
+/* 3. Container Principal */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 4. Header & Navegação */
+header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-color);
+  padding: 14px 0;
+  margin-bottom: 32px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo span {
+  color: var(--accent-primary);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+nav a {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+}
+
+nav a:hover {
+  color: var(--text-main);
+  background: var(--bg-card-hover);
+}
+
+/* Botão Alternador de Tema */
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.theme-toggle-btn:hover {
+  border-color: var(--accent-steel);
+  background: var(--bg-card-hover);
+}
+
+/* 5. Estilização Global de Formulários e Busca */
+input[type="text"],
+input[type="number"],
+input[type="url"],
+select,
+textarea,
+.form-control,
+.search-input {
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(163, 0, 0, 0.15);
+}
+
+.search-container, .search-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  max-width: 500px;
+}
+
+.search-container input, .search-form input {
+  flex: 1;
+}
+
+/* Card do Formulário Centralizado e Compacto */
+.form-card {
+    max-width: 640px;
+    margin: 20px auto;
+    padding: 28px 32px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+/* Grid de 2 colunas para campos curtos */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-group input,
+.form-group select {
+    padding: 9px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-main);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-color, #a80000);
+}
+
+/* Alinhamento dos botões abaixo dos campos */
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.btn-cancel {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.btn-cancel:hover {
+    color: var(--text-main);
+}
+
+/* 6. Botões Globais */
+button, .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 16px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  background: var(--bg-card-hover);
+  color: var(--text-main);
+}
+
+button:hover, .btn:hover {
+  border-color: var(--border-color);
+}
+
+/* Variações de Botão */
+.btn-primary, nav a.btn-primary {
+  background: var(--accent-primary);
+  color: #FFFFFF !important;
+  border: none;
+}
+
+.btn-primary:hover, nav a.btn-primary:hover {
+  background: var(--accent-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(163, 0, 0, 0.3);
+}
+
+.btn-danger, button[type="submit"]:not(.btn-primary) {
+  background: rgba(163, 0, 0, 0.15);
+  color: var(--tag-text);
+  border: 1px solid rgba(163, 0, 0, 0.3);
+}
+
+.btn-danger:hover, button[type="submit"]:not(.btn-primary):hover {
+  background: var(--accent-primary);
+  color: #FFFFFF;
+  border-color: var(--accent-primary);
+}
+
+/* 7. Estilização Automática de Tabelas */
+.table-wrapper {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-top: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  background: var(--bg-card);
+}
+
+thead, th {
+  background: var(--bg-table-header) !important;
+}
+
+th {
+  padding: 14px 18px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+}
+
+td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.95rem;
+  vertical-align: middle;
+}
+
+tbody tr:hover {
+  background: var(--bg-card-hover);
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* 8. Card de Detalhes do Filme */
+.movie-detail-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 28px;
+  box-shadow: var(--shadow-lg);
+  width: 100%;
+  max-width: 100%; /* Estica até a largura total do container (1100px) */
+  margin: 0 auto 20px auto;
+  box-sizing: border-box;
+}
+
+.poster-wrapper {
+  width: 100%;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+  aspect-ratio: 2 / 3;
+}
+
+.poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.movie-info-header {
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.movie-info {
+  flex: 1;
+  width: 100%;
+}
+
+.movie-title {
+  font-size: 2rem;
+  line-height: 1.2;
+}
+
+.movie-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 12px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.stat-item {
+  background: var(--bg-input);
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+/* Seção de Sinopse & Formulário */
+.synopsis-container {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-color);
+  grid-column: 1 / -1 !important;
+  width: 100% !important;
+  min-height: 240px !important; /* Mantém a altura fixa mesmo sem conteúdo */
+  box-sizing: border-box !important;
+}
+
+.synopsis-title {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+
+.synopsis-container p,
+.synopsis-text {
+  font-size: 1rem;
+  line-height: 1.7 !important;
+  margin-bottom: 16px !important;
+  color: var(--text-main);
+  text-align: justify !important;
+  width: 100% !important;
+  word-break: break-word;
+}
+
+.synopsis-empty {
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.synopsis-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.synopsis-textarea {
+  width: 100%;
+  min-height: 130px;
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+  background: var(--bg-input);
+  color: var(--text-main);
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.synopsis-textarea:focus {
+  border-color: var(--border-focus);
+}
+
+.synopsis-textarea,
+.synopsis-container textarea {
+  width: 100% !important;
+  min-height: 120px !important;
+  box-sizing: border-box !important;
+  display: block !important;
+}
+
+/* Garante que o footer fique no rodapé da página mesmo com pouco conteúdo */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-footer {
+    margin-top: auto;
+    padding: 24px 0;
+    /* Usa a variável de fundo de card/container do projeto sem valor estático fixo */
+    background-color: var(--card-bg); 
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    text-align: center;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.footer-container strong {
+    color: var(--text-main);
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titulo %}Catálogo de Filmes{% endblock %}</title>
+    <!-- Vincula o arquivo CSS gerado -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=2.0">
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                🎬 Film<span>Catalog</span>
+            </div>
+            <nav>
+                <a href="/">Filmes</a>
+                <a href="/diretores">Diretores</a>
+                <a href="/cadastrar_filme" class="btn btn-primary">+ Cadastrar Filme</a>
+                <a href="/cadastrar_diretor" class="btn btn-primary">+ Cadastrar Diretor</a>
+                <button id="themeToggle" class="theme-toggle-btn">☀️ Modo Claro</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% block conteudo %}{% endblock %}
+    </main>
+
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const htmlElement = document.documentElement;
+
+        // Recupera tema salvo ou usa escuro como padrão
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        htmlElement.setAttribute('data-theme', savedTheme);
+        updateButtonText(savedTheme);
+
+        toggleBtn.addEventListener('click', () => {
+            const currentTheme = htmlElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            htmlElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateButtonText(newTheme);
+        });
+
+        function updateButtonText(theme) {
+            toggleBtn.textContent = theme === 'dark' ? '☀️ Modo Claro' : '🌙 Modo Escuro';
+        }
+    </script>
+</body>
+<footer class="main-footer">
+    <div class="footer-container">
+        <p><strong>Guilherme Amaral</strong></p>
+        <p>Ibmec — Ciência de Dados e IA</p>
+        <p>AC1 de Projeto de Dados I (Projeto Front End) | 2026</p>
+    </div>
+</footer>
+</html>
