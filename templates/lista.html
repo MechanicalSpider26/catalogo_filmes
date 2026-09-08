@@ -53,7 +53,7 @@
                         </a>
                     </td>
                     <td>
-                        <a href="{{ url_for('editar_filme', id_filme=filme.id) }}">Editar</a>
+                        <a href="{{ url_for('editar_filme', id_filme=filme.id) }}" class="btn btn-secondary">Editar</a>
                         <form action="{{ url_for('excluir', id_filme=filme.id) }}" method="POST" style="display: inline;">
                             <button type="submit" onclick="return confirm('Tem certeza que deseja excluir o filme {{ filme.titulo }}?');">
                                 Excluir
