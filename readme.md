@@ -13,27 +13,37 @@ Siga os passos abaixo no terminal para configurar o ambiente e executar o projet
 ### 1. Clonar o repositório (caso aplicável) e navegar até a pasta
 ```bash
 cd seu_projeto
+```
 
 ### 2. Criar e ativar o ambiente virtual (.venv)
 
+```bash
 - Linux / macOS:
     python3 -m venv .venv
 
 - Windows (PowerShell):
     python -m venv .venv
+```
 
 ### 3. Instalar as dependências
 
+```bash
 pip install -r requirements.txt
+```
+
 
 ### 4. Popular o banco de dados inicial
 Execute o script de inicialização para criar as tabelas e inserir os dados iniciais do acervo:
 
+```bash
 python dados_iniciais.py
+```
 
 ### 5. Executar a aplicação Flask
 
+```bash
 python app.py
+```
 
 Acesse a aplicação no navegador através do endereço: http://127.0.0.1:5000
 
