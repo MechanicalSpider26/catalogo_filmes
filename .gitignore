@@ -1,13 +1,20 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# Banco de Dados local (recriado via dados_iniciais.py)
+dados/*.db
+*.sqlite3
 
-# Ambientes virtuais (caso utilize)
+# Cache do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ambiente Virtual
 venv/
 .venv/
 env/
+ENV/
 
-# Arquivos de sistema
+# Configurações da IDE e Sistema Operacional
+.vscode/
+.idea/
 .DS_Store
+Thumbs.db
