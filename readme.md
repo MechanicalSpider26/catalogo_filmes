@@ -17,12 +17,14 @@ cd seu_projeto
 
 ### 2. Criar e ativar o ambiente virtual (.venv)
 
+
+-  Linux / macOS:
 ```bash
-- Linux / macOS:
     python3 -m venv .venv
 ```
-```bash
+
 - Windows (PowerShell):
+```bash
     python -m venv .venv
 ```
 
@@ -51,19 +53,20 @@ Acesse a aplicação no navegador através do endereço: http://127.0.0.1:5000
 
 ### Lista de Rotas
 
-Método,Rota,Descrição
-GET,/,Página inicial com listagem geral dos filmes
-GET,/diretores,Lista todos os diretores cadastrados e total de filmes vinculados
-"GET, POST",/cadastrar_filme (ou /novo),Formulário e ação de cadastro de um novo filme
-"GET, POST",/cadastrar_diretor,Formulário e ação de cadastro de um novo diretor
-GET,/filme/<id>,Detalhes do filme selecionado e dados do seu diretor
-GET,/diretores/<id>,Perfil do diretor e lista de filmes por ele dirigidos
-GET,/buscar,"Busca de filmes por título, gênero ou nome do diretor"
-"GET, POST",/filme/<id>/editar,Form e atualização dos dados de um filme existente
-"GET, POST",/diretores/<id>/editar,Form e atualização dos dados de um diretor
-POST,/filme/<id>/excluir,Remoção de um filme do banco de dados
-POST,/diretores/<id>/deletar,Remoção de um diretor e atualização/deleção em cascata
-POST,/filme/<id>/sinopse,Atualização rápida da sinopse na página de detalhes
+| Método | Rota | Descrição |
+| :---: | :--- | :--- |
+| **GET** | `/` | Página inicial com listagem geral dos filmes |
+| **GET** | `/diretores` | Lista todos os diretores cadastrados e total de filmes vinculados |
+| **GET, POST** | `/cadastrar_filme` (ou `/novo`) | Formulário e ação de cadastro de um novo filme |
+| **GET, POST** | `/cadastrar_diretor` | Formulário e ação de cadastro de um novo diretor |
+| **GET** | `/filme/:id` | Detalhes do filme selecionado e dados do seu diretor |
+| **GET** | `/diretores/:id` | Perfil do diretor e lista de filmes por ele dirigidos |
+| **GET** | `/buscar` | Busca de filmes por título, gênero ou nome do diretor |
+| **GET, POST** | `/filme/:id/editar` | Formulário e atualização dos dados de um filme existente |
+| **GET, POST** | `/diretores/:id/editar` | Formulário e atualização dos dados de um diretor |
+| **POST** | `/filme/:id/excluir` | Remoção de um filme do banco de dados |
+| **POST** | `/diretores/:id/deletar` | Remoção de um diretor e exclusão em cascata dos filmes |
+| **POST** | `/filme/:id/sinopse` | Atualização rápida da sinopse na página de detalhes |
 
 ### Regras de Validação Implementadas
 #### Entidade Diretor
