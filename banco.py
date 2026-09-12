@@ -1,20 +1,18 @@
+# banco.py
 import sqlite3
 import os
-from flask import request
 
 def conectar_banco():
-    """Conecta ao banco SQLite e cria a tabela se nao existir."""
+    """Conecta ao banco SQLite e cria as tabelas se não existirem."""
     os.makedirs('dados', exist_ok=True)
     conn = sqlite3.connect('dados/cinema.db')
     conn.row_factory = sqlite3.Row   
-
     conn.execute('PRAGMA foreign_keys = ON;')
-
 
     conn.execute('''
         CREATE TABLE IF NOT EXISTS diretores (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nome TEXT NOT NULL,
+            nome TEXT NOT NULL UNIQUE,
             nacionalidade TEXT NOT NULL,
             data_nascimento TEXT NOT NULL
         )
@@ -23,10 +21,10 @@ def conectar_banco():
     conn.execute('''
         CREATE TABLE IF NOT EXISTS filmes (
             id            INTEGER PRIMARY KEY AUTOINCREMENT,
-            titulo        TEXT    NOT NULL,
+            titulo        TEXT    NOT NULL UNIQUE,
             ano           INTEGER NOT NULL,
             genero        TEXT    NOT NULL,
-            diretor_id    INTEGER NOT NULL REFERENCES diretores(id),
+            diretor_id    INTEGER NOT NULL REFERENCES diretores(id) ON DELETE CASCADE,
             nota          REAL    NOT NULL,
             estudio       TEXT    NOT NULL,
             imagem_url    TEXT,
@@ -37,13 +35,20 @@ def conectar_banco():
     return conn
 
 def cadastrar_diretor(nome, nacionalidade, data_nascimento):
-    """Cadastra um novo diretor no banco de dados."""
+    """Cadastra um novo diretor no banco após verificar duplicidade."""
     conn = conectar_banco()
     cursor = conn.cursor()
+    
+    # Validação no banco via SELECT (Item 2.5)
+    cursor.execute("SELECT id FROM diretores WHERE LOWER(nome) = LOWER(?)", (nome.strip(),))
+    if cursor.fetchone():
+        conn.close()
+        raise ValueError(f"O diretor '{nome}' já está cadastrado no sistema.")
+
     cursor.execute('''
         INSERT INTO diretores (nome, nacionalidade, data_nascimento)
         VALUES (?, ?, ?)
-    ''', (nome, nacionalidade, data_nascimento))
+    ''', (nome.strip(), nacionalidade.strip(), data_nascimento.strip()))
     conn.commit()
     conn.close()
 
@@ -57,13 +62,20 @@ def listar_diretores():
     return diretores
 
 def cadastrar_filme(titulo, ano, genero, diretor_id, nota, estudio, imagem_url):
-    """Cadastra um filme no banco de dados."""
+    """Cadastra um filme após verificar se o título já existe no banco."""
     conn = conectar_banco()
     cursor = conn.cursor()
+
+    # Validação no banco via SELECT (Item 2.5)
+    cursor.execute("SELECT id FROM filmes WHERE LOWER(titulo) = LOWER(?)", (titulo.strip(),))
+    if cursor.fetchone():
+        conn.close()
+        raise ValueError(f"O filme '{titulo}' já está cadastrado no banco de dados.")
+
     cursor.execute('''
         INSERT INTO filmes (titulo, ano, genero, diretor_id, nota, estudio, imagem_url)
         VALUES (?, ?, ?, ?, ?, ?, ?)
-    ''', (titulo, ano, genero, diretor_id, nota, estudio, imagem_url))
+    ''', (titulo.strip(), ano, genero, diretor_id, nota, estudio, imagem_url))
     conn.commit()
     conn.close()
 
@@ -86,12 +98,11 @@ def obter_ou_criar_diretor(nome_diretor):
     conn = conectar_banco()
     cursor = conn.cursor()
     
-    # Busca insensível a maiúsculas/minúsculas
     cursor.execute("SELECT id FROM diretores WHERE LOWER(nome) = LOWER(?)", (nome_diretor.strip(),))
     resultado = cursor.fetchone()
     
     if resultado:
-        diretor_id = resultado['id'] # Ou resultado[0] dependendo do row_factory
+        diretor_id = resultado['id']
     else:
         cursor.execute('''
             INSERT INTO diretores (nome, nacionalidade, data_nascimento)
@@ -124,8 +135,6 @@ def obter_filme_por_id(id_filme):
 def buscar_filmes(termo):
     """Busca filmes pelo título, gênero ou nome do diretor."""
     conn = conectar_banco()
-    
-    # Prepara o termo para buscar qualquer trecho da palavra
     padrao = f'%{termo}%'
     
     filmes = conn.execute('''
@@ -195,14 +204,6 @@ def listar_diretores_com_contagem():
     conn.close()
     return diretores
 
-
-def obter_diretor_por_id(id_diretor):
-    """Busca um único diretor pelo ID."""
-    conn = conectar_banco()
-    diretor = conn.execute("SELECT * FROM diretores WHERE id = ?", (id_diretor,)).fetchone()
-    conn.close()
-    return diretor
-
 def atualizar_diretor(id_diretor, nome, nacionalidade, data_nascimento):
     """Atualiza todos os dados do diretor no banco de dados."""
     conn = conectar_banco()
@@ -215,19 +216,18 @@ def atualizar_diretor(id_diretor, nome, nacionalidade, data_nascimento):
     conn.commit()
     conn.close()
 
-
 def excluir_diretor(id_diretor):
-    """Desvincula o diretor dos filmes e o remove do banco."""
+    """Exclui o diretor e seus filmes associados para manter integridade."""
     conn = conectar_banco()
-    conn.execute("UPDATE filmes SET diretor_id = NULL WHERE diretor_id = ?", (id_diretor,))
-    conn.execute("DELETE FROM diretores WHERE id = ?", (id_diretor,))
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM filmes WHERE diretor_id = ?", (id_diretor,))
+    cursor.execute("DELETE FROM diretores WHERE id = ?", (id_diretor,))
     conn.commit()
     conn.close()
 
 def atualizar_sinopse(id_filme, nova_sinopse):
-    """Atualiza a sinopse do filme no banco de dados"""
+    """Atualiza a sinopse do filme no banco de dados."""
     conn = conectar_banco()
-    conn.execute(
-        "UPDATE filmes SET sinopse = ? WHERE id = ?", (nova_sinopse, id_filme))
+    conn.execute("UPDATE filmes SET sinopse = ? WHERE id = ?", (nova_sinopse, id_filme))
     conn.commit()
     conn.close()
