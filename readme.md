@@ -20,7 +20,8 @@ cd seu_projeto
 ```bash
 - Linux / macOS:
     python3 -m venv .venv
-
+```
+```bash
 - Windows (PowerShell):
     python -m venv .venv
 ```
