@@ -1,8 +1,8 @@
 # Sistema de Gerenciamento de Acervo de Cinema
 
-**Aluno:** Guilherme Ferreira Prates Amaral 
-**Matrícula:** 202603181057
-**Domínio Escolhido:** Gerenciamento de Filmes e Diretores de Cinema  
+**Aluno:** Guilherme Ferreira Prates Amaral <br>
+**Matrícula:** 202603181057 <br>
+**Domínio Escolhido:** Gerenciamento de Filmes e Diretores de Cinema  <br>
 
 ---
 
