@@ -52,10 +52,10 @@ def inicializar_banco():
 
     # Inserção de Filmes (4 filmes)
     filmes = [
-        ("Oppenheimer", 2023, "Biografia", 1, 8.9, "Universal Pictures", "https://via.placeholder.com/300x450", "História do físico J. Robert Oppenheimer."),
-        ("Inception", 2010, "Ficção Científica", 1, 8.8, "Warner Bros.", "https://via.placeholder.com/300x450", "Um ladrão que rouba segredos corporativos através de sonhos."),
-        ("Pulp Fiction", 1994, "Crime", 2, 8.9, "Miramax", "https://via.placeholder.com/300x450", "As vidas de dois assassinos da máfia se cruzam."),
-        ("Barbie", 2023, "Comédia/Fantasia", 3, 7.0, "Warner Bros.", "https://via.placeholder.com/300x450", "Barbie e Ken deixam Barbieland rumo ao mundo real.")
+        ("Oppenheimer", 2023, "Biografia", 1, 8.9, "Universal Pictures", "https://i.redd.it/4nj1l524d1ya1.jpg", "História do físico J. Robert Oppenheimer."),
+        ("Inception", 2010, "Ficção Científica", 1, 8.8, "Warner Bros.", "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg", "Um ladrão que rouba segredos corporativos através de sonhos."),
+        ("Pulp Fiction", 1994, "Crime", 2, 8.9, "Miramax", "https://cdn.posteritati.com/posters/000/000/061/361/pulp-fiction-md-web.jpg", "As vidas de dois assassinos da máfia se cruzam."),
+        ("Barbie", 2023, "Comédia/Fantasia", 3, 7.0, "Warner Bros.", "https://image.tmdb.org/t/p/original/9m9IkcHs7AmW9zS1Ly9ZOYxuKIE.jpg", "Barbie e Ken deixam Barbieland rumo ao mundo real.")
     ]
 
     cursor.executemany('''
